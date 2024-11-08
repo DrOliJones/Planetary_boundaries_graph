@@ -43,7 +43,8 @@ ggplot(boundaries_data) +
     geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted") +
     ylim(0, max(boundaries_data$max_value) + 0.5) + # Expand y-axis limits for larger circle
     theme_minimal() +
-    labs(title = "Planetary Boundaries in R", fill = "Risk Zone") +
+#set fill to "" to get rid of risk zone legend
+    labs(title = "Planetary Boundaries in R", fill = "") +
     theme(
         axis.text = element_blank(),
         axis.title = element_blank(),
