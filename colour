@@ -37,10 +37,10 @@ ggplot(boundaries_data) +
     geom_text(aes(x = boundary, y = max_value - 2.5, label = boundary), # Adjust y position for labels
               angle = 0, hjust = 0.5, size = 4) + 
     # Add radial lines for reference, make third circle black and second grey
-    geom_hline(yintercept = 0, color = "dark grey", linetype = "dotted") +
-    geom_hline(yintercept = 1, color = "dark grey", linetype = "dotted") +
-    geom_hline(yintercept = 2, color = "black", linetype = "dotted") +
-    geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted") +
+    geom_hline(yintercept = 0, color = "dark grey", linetype = "dotted", linewidth = 0.6) +
+    geom_hline(yintercept = 1, color = "dark grey", linetype = "dotted", linewidth = 0.6) +
+    geom_hline(yintercept = 2, color = "black", linetype = "dotted", linewidth = 0.6) +
+    geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted", linewidth = 0.6) +
     ylim(0, max(boundaries_data$max_value) + 0.5) + # Expand y-axis limits for larger circle
     theme_minimal() +
 #set fill to "" to get rid of risk zone legend
