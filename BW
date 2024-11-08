@@ -5,17 +5,17 @@ library(tibble)
 # Create the data frame for planetary boundaries with line breaks for labels
 boundaries_data <- tibble(
     boundary = c(expression("Biosphere\nIntegrity\n(Genetic)\n", 
-                 "\nBiosphere\nIntegrity\n(Functional)", 
-                 "\nClimate Change\n(Carbon Dioxide %)", 
-                 "Climate Change\n(Radiative Forcing)", 
-                 "Novel\nChemicals\n", 
-                 "Stratospheric\nOzone\nDepletion", 
-                 "Atmospheric\nAerosol\nLoading", 
-                 "Ocean\nAcidification", 
-                 "Biogeochemical\nFlows (P)", 
-                 "Biogeochemical\nFlows (N)", 
-                 "Freshwater\nChange\n(Blue)", "Freshwater\nChange\n(Green)", 
-                 "Land\nSystem\nChange")),
+                            "\nBiosphere\nIntegrity\n(Functional)", 
+                            "\nClimate Change\n(Carbon Dioxide %)", 
+                            "Climate Change\n(Radiative Forcing)", 
+                            "Novel\nChemicals\n", 
+                            "Stratospheric\nOzone\nDepletion", 
+                            "Atmospheric\nAerosol\nLoading", 
+                            "Ocean\nAcidification", 
+                            "Biogeochemical\nFlows (P)", 
+                            "Biogeochemical\nFlows (N)", 
+                            "Freshwater\nChange\n(Blue)", "Freshwater\nChange\n(Green)", 
+                            "Land\nSystem\nChange")),
     value = c(6.5, 4.5, 2.3, 4.5, 4.7, 1.4, 1.7, 1.9, 4.8, 4.5, 2.3, 2.5, 3.5),
     max_value = 10.2
 )
@@ -37,13 +37,14 @@ ggplot(boundaries_data) +
     geom_text(aes(x = boundary, y = max_value - 2.5, label = boundary), # Adjust y position for labels
               angle = 0, hjust = 0.5, size = 4) + 
     # Add radial lines for reference, make third circle black and second grey
-    geom_hline(yintercept = 0, color = "dark grey", linetype = "dotted") +
-    geom_hline(yintercept = 1, color = "dark grey", linetype = "dotted") +
-    geom_hline(yintercept = 2, color = "black", linetype = "dotted") +
-    geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted") +
+    geom_hline(yintercept = 0, color = "dark grey", linetype = "dotted", linewidth = 0.8) +
+    geom_hline(yintercept = 1, color = "dark grey", linetype = "dotted", linewidth = 0.8) +
+    geom_hline(yintercept = 2, color = "black", linetype = "dotted", linewidth = 0.8) +
+    geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted", linewidth = 0.8) +
     ylim(0, max(boundaries_data$max_value) + 0.5) + # Expand y-axis limits for larger circle
     theme_minimal() +
-    labs(title = "", fill = "") +
+    #set fill to "" to get rid of risk zone legend
+    labs(title = "Planetary Boundaries in R", fill = "") +
     theme(
         axis.text = element_blank(),
         axis.title = element_blank(),
