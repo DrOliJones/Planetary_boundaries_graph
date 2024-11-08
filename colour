@@ -1,0 +1,59 @@
+library(ggplot2)
+library(dplyr)
+library(tibble)
+
+# Create the data frame for planetary boundaries with line breaks for labels
+boundaries_data <- tibble(
+    boundary = c("Biosphere\nIntegrity\n(Genetic)\n", 
+                 "\nBiosphere\nIntegrity\n(Functional)", 
+                 "\nClimate Change\n(Carbon dioxide)", 
+                 "Climate Change\n(Radiative forcing)", 
+                 "Novel\nChemicals\n", 
+                 "Stratospheric\nOzone\nDepletion", 
+                 "Atmospheric\nAerosol\nLoading", 
+                 "Ocean\nAcidification", 
+                 "Biogeochemical\nFlows (P)", 
+                 "Biogeochemical\nFlows (N)", 
+                 "Freshwater\nChange\n(Blue)", "Freshwater\nChange\n(Green)", 
+                 "Land\nSystem\nChange"),
+    value = c(6.5, 4.5, 2.3, 4.5, 4.7, 1.4, 1.7, 1.9, 4.8, 4.5, 2.3, 2.5, 3.5),
+    max_value = 10.2
+)
+
+# Define risk levels based on value
+boundaries_data <- boundaries_data %>%
+    mutate(boundary = factor(boundary, levels = boundary), # Maintain order
+           risk_zone = cut(value, breaks = c(0, 2.2, 4.4, 10), labels = c("Safe", "Increasing Risk", "High Risk")))
+
+# Define colors for the risk zones
+risk_colors <- c("Safe" = "#1f78b4", "Increasing Risk" = "#fdae61", "High Risk" = "#d73027")
+
+# Plot with coord_polar and larger circle size
+ggplot(boundaries_data) +
+    geom_bar(aes(x = boundary, y = value, fill = risk_zone), stat = "identity", color = "black", width = 0.9) +
+    scale_fill_manual(values = risk_colors) +
+    coord_polar(theta = "x", start = 0) +
+    # Place labels further outside the circle and keep them upright
+    geom_text(aes(x = boundary, y = max_value - 2.5, label = boundary), # Adjust y position for labels
+              angle = 0, hjust = 0.5, size = 4) + 
+    # Add radial lines for reference, make third circle black and second grey
+    geom_hline(yintercept = 0, color = "dark grey", linetype = "dotted") +
+    geom_hline(yintercept = 1, color = "dark grey", linetype = "dotted") +
+    geom_hline(yintercept = 2, color = "black", linetype = "dotted") +
+    geom_hline(yintercept = c(3.5, 5), color = "dark grey", linetype = "dotted") +
+    ylim(0, max(boundaries_data$max_value) + 0.5) + # Expand y-axis limits for larger circle
+    theme_minimal() +
+    labs(title = "", fill = "Risk Zone") +
+    theme(
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust = 0.5, size = 1), 
+        legend.text = element_text(size = 10, face = "bold"), 
+        legend.title = element_text(face = "bold"),
+        legend.position = "bottom", # Move legend to bottom
+        legend.direction = "horizontal", # Horizontal layout for legend
+        legend.box.just = "center",
+        legend.spacing.y = unit(0.1, 'cm'), # Reduce vertical spacing in the legend
+        legend.margin = margin(t = -65) # Move legend closer to the chart
+    )
